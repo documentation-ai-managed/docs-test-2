@@ -1,0 +1,174 @@
+---
+title: Integrations with Test IO
+description: Learn how to connect Test IO with your existing development tools and workflows to streamline testing processes.
+---
+
+## Overview
+
+Connect Test IO to your CI/CD pipelines, third-party tools, and custom scripts to automate testing workflows. You gain real-time notifications, seamless data sync, and triggered test cycles without manual intervention. These integrations help agile teams ship faster while maintaining quality.
+
+<Columns cols={3}>
+  <Card title="CI/CD Pipelines" icon="git-branch" href="#ci-cd-pipelines">
+    Integrate with GitHub Actions, Jenkins, and more to run tests automatically on commits.
+  </Card>
+  <Card title="Third-Party Tools" icon="link" href="#third-party-tools">
+    Sync defects and results with Jira, Slack, and other platforms.
+  </Card>
+  <Card title="Webhooks & API" icon="plug" href="#webhooks-api">
+    Set up notifications and build custom integrations using webhooks and REST API.
+  </Card>
+</Columns>
+
+## CI/CD Pipeline Integrations
+
+Automate test execution in your pipelines. Trigger Test IO test cycles on pull requests or deployments.
+
+<Callout kind="info">
+  Ensure you have a Test IO API key from your dashboard at `https://dashboard.example.com`.
+</Callout>
+
+<Tabs>
+  <Tab title="GitHub Actions" icon="github">
+    Add this workflow to your `.github/workflows/test.yml` file.
+
+    <Steps>
+      <Step title="Create Workflow File">
+        Create `.github/workflows/ci.yml`.
+      </Step>
+      <Step title="Add Test IO Step">
+````yaml
+- name: Run Test IO Tests
+  uses: testio/action@v1
+  with:
+    api-key: ${{ secrets.TESTIO_API_KEY }}
+    project-id: "proj_123456"
+    cycle-name: "PR-${{ github.event.pull_request.number }}"
+````
+      </Step>
+    </Steps>
+  </Tab>
+  <Tab title="Jenkins" icon="plug">
+    Use the Test IO Jenkins plugin or script.
+
+````groovy
+pipeline {
+  stages {
+    stage('Test IO') {
+      steps {
+        script {
+          sh """
+            curl -X POST https://api.example.com/v1/cycles \\
+              -H "Authorization: Bearer ${TESTIO_API_KEY}" \\
+              -d '{"projectId": "proj_123456", "name": "Jenkins Build #${BUILD_NUMBER}"}'
+          """
+        }
+      }
+    }
+  }
+}
+````
+  </Tab>
+</Tabs>
+
+## Third-Party Tool Connections
+
+Link Test IO directly to your collaboration tools.
+
+<Columns cols={2}>
+  <Card title="Jira" icon="github" horizontal>
+    Map test defects to Jira issues automatically.
+    <br/><br/>
+    Configure in Test IO dashboard: Integrations > Jira > Paste webhook URL.
+  </Card>
+  <Card title="Slack" icon="message-circle" horizontal>
+    Get instant notifications for test results.
+    <br/><br/>
+    Use incoming webhooks: `https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK`.
+  </Card>
+</Columns>
+
+## Webhook Setups for Notifications
+
+Receive Test IO events like cycle completion or defect creation via webhooks.
+
+### Setup Steps
+
+<Steps>
+  <Step title="Configure Webhook URL">
+    In Test IO dashboard, go to Project Settings > Webhooks > Add Endpoint.
+    Enter your URL: `https://your-webhook-url.com/testio`.
+  </Step>
+  <Step title="Select Events">
+    Choose events: `cycle.completed`, `defect.created`.
+  </Step>
+  <Step title="Verify Signature">
+    Validate payloads using HMAC SHA256 with your secret.
+  </Step>
+</Steps>
+
+Example incoming payload:
+
+<CodeGroup tabs="JSON">
+```json
+{
+  "event": "cycle.completed",
+  "projectId": "proj_123456",
+  "cycleId": "cycle_789",
+  "status": "passed",
+  "timestamp": "2024-01-15T10:30:00Z"
+}
+```
+</CodeGroup>
+
+## API Access for Custom Integrations
+
+Build tailored solutions using the Test IO REST API at `https://api.example.com/v1`.
+
+<ParamField path="projectId" param-type="string" required="true">
+  Your Test IO project identifier, found in dashboard.
+</ParamField>
+
+<ParamField header="Authorization" param-type="string" required="true">
+  Bearer token: `Bearer YOUR_API_KEY`.
+</ParamField>
+
+<CodeGroup tabs="JavaScript,Python">
+```javascript
+const response = await fetch('https://api.example.com/v1/cycles', {
+  method: 'POST',
+  headers: {
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    projectId: 'proj_123456',
+    name: 'Custom Cycle'
+  })
+});
+```
+```python
+import requests
+
+response = requests.post(
+  'https://api.example.com/v1/cycles',
+  headers={
+    'Authorization': 'Bearer YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  },
+  json={
+    'projectId': 'proj_123456',
+    'name': 'Custom Cycle'
+  }
+)
+```
+</CodeGroup>
+
+<Callout kind="tip">
+  Explore full API docs at `https://docs.example.com/api`. Start with sandbox mode for testing.
+</Callout>
+
+## Next Steps
+
+Review your integration logs in the Test IO dashboard. For advanced setups, use <Expandable title="Custom Event Handling">
+  Implement idempotency with `idempotency-key` header to avoid duplicates.
+</Expandable>.

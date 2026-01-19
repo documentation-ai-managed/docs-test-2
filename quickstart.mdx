@@ -1,0 +1,145 @@
+---
+title: Getting Started with Test IO
+description: Set up your Test IO account and launch your first testing project in minutes to begin ensuring quality in your software development.
+---
+
+## Prerequisites
+
+Before starting, ensure you have:
+
+- A valid email address for account registration
+- Access to your company's development or QA environment
+- Basic familiarity with your application's testing needs (web, mobile, or API)
+
+<Callout kind="info">
+
+Test IO requires verification of your email during onboarding. Check your inbox (including spam) after registration.
+
+</Callout>
+
+## Sign Up for Your Account
+
+Follow these steps to create and verify your Test IO account quickly.
+
+<Steps>
+  <Step title="Visit the Dashboard" icon="monitor">
+    Navigate to `https://dashboard.example.com/signup` in your browser.
+    
+    Fill out the registration form with your email, company name, and role.
+  </Step>
+  <Step title="Verify Email" icon="mail">
+    Check your email for the verification link from Test IO.
+    
+    Click the link to activate your account.
+  </Step>
+  <Step title="Complete Onboarding" icon="user-check">
+    Log in at `https://dashboard.example.com/login`.
+    
+    Provide details about your team size and primary testing focus (e.g., web apps, mobile).
+    
+    Accept the terms and set up your profile.
+  </Step>
+</Steps>
+
+<Callout kind="tip">
+
+Save your account credentials securely. You receive an API key during onboarding for programmatic access.
+
+</Callout>
+
+## Create Your First Test Project
+
+Set up a project to crowdtest your application. Choose the appropriate type based on your app.
+
+<Tabs>
+  <Tab title="Web Application" icon="globe">
+    In the dashboard, click **New Project** > **Web**.
+    
+    Enter project details:
+    
+    | Field       | Example Value              |
+    |-------------|-----------------------------|
+    | Name        | `MyWebApp Release 1.0`     |
+    | URL         | `https://myapp.example.com`|
+    | Environment | Production                 |
+    
+    Select testing cycles and save.
+  </Tab>
+  <Tab title="Mobile App" icon="smartphone">
+    Choose **New Project** > **Mobile**.
+    
+    Specify:
+    
+    | Field     | Example Value                  |
+    |-----------|--------------------------------|
+    | Name      | `MyMobileApp v2.1`            |
+    | Platforms | Android, iOS                  |
+    | Build URL | `https://builds.example.com/app.apk` |
+    
+    Configure devices and submit.
+  </Tab>
+</Tabs>
+
+## Submit Your Initial Test Cases
+
+Define test cases via the dashboard or API for automation.
+
+<CodeGroup tabs="Dashboard,cURL">
+  ```javascript
+  // Use this in the Test Cases section after creating project
+  {
+    "title": "Login Functionality",
+    "steps": [
+      "Navigate to login page",
+      "Enter valid credentials",
+      "Click submit"
+    ],
+    "expected": "Redirect to dashboard"
+  }
+  ```
+
+  ```bash
+  curl -X POST https://api.example.com/v1/projects/{projectId}/testcases \
+    -H "Authorization: Bearer YOUR_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d '{
+      "title": "Payment Flow",
+      "steps": ["Select item", "Enter card details", "Confirm purchase"],
+      "expected": "Order confirmation page"
+    }'
+  ```
+</CodeGroup>
+
+<ParamField path="projectId" param-type="string" required="true">
+  Your project identifier from the dashboard.
+</ParamField>
+
+<ParamField header="Authorization" param-type="string" required="true">
+  Bearer token: `Bearer YOUR_API_KEY`.
+</ParamField>
+
+## Access the Tester Community and Launch
+
+With test cases ready, launch your project to engage Test IO's 400k+ testers.
+
+1. Review submitted cases in the dashboard.
+2. Set budget and timeline.
+3. Click **Launch Testing Cycle**.
+
+<Columns cols={3}>
+  <Card title="Monitor Results" icon="bar-chart-3" href="#monitor-results">
+    View real-time reports and defects.
+  </Card>
+  <Card title="Scale Testing" icon="users" href="/introduction">
+    Explore advanced crowdtesting features.
+  </Card>
+  <Card title="Integrate API" icon="code" href="/authentication">
+    Automate with full API access.
+  </Card>
+</Columns>
+
+<Callout kind="success">
+
+Congratulations! Your first Test IO project is live. Expect results within hours from global testers. Next, review the [changelog](/changelog) for latest features.
+
+</Callout>

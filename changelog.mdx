@@ -1,0 +1,144 @@
+---
+title: Changelog
+description: Track the latest updates, enhancements, and improvements to Test IO's testing services and platform features.
+---
+
+## Recent Updates
+
+Stay informed about the latest releases that enhance your testing workflows, crowdtesting capabilities, and platform reliability. You receive automatic notifications for major versions when subscribed to our updates.
+
+<Update label="2024-10-15" description="v2.3.0" tags={["feature", "improvement", "bugfix"]}>
+
+## New Features
+
+- Added AI-powered test case generation to automatically create comprehensive test scenarios from user stories.
+- Introduced real-time collaboration tools for testers, enabling live feedback during crowdtesting cycles.
+- Integrated EPAM's quality engineering dashboard for unified metrics across projects.
+
+## Improvements
+
+- Enhanced tester matching algorithm by 40% for faster assignment to relevant test cycles.
+- Optimized reporting with customizable export formats including PDF and CSV.
+
+## Bug Fixes
+
+- Fixed intermittent failures in mobile app testing on iOS 18 simulators.
+- Resolved dashboard refresh issues during high-volume test runs.
+
+</Update>
+
+<Update label="2024-09-20" description="v2.2.0" tags={["feature", "bugfix"]}>
+
+## New Features
+
+- Launched webhook support for test cycle completions, allowing seamless CI/CD pipeline integration.
+- Added multilingual support for tester instructions, now covering 15+ languages.
+
+## Bug Fixes
+
+- Corrected API rate limiting errors that affected bulk test submissions.
+- Patched security vulnerability in session management (reported via our bug bounty program).
+
+</Update>
+
+<Update label="2024-08-05" description="v2.1.0" tags={["feature", "breaking"]}>
+
+## New Features
+
+- Rolled out advanced analytics with predictive defect forecasting based on historical data.
+- Enabled custom test environments for cloud-based exploratory testing.
+
+## Breaking Changes
+
+- Updated authentication to require JWT tokens; legacy API keys deprecated.
+
+## Improvements
+
+- Reduced average test cycle turnaround time by 25% through optimized crowd distribution.
+
+</Update>
+
+## Upcoming Roadmap
+
+Discover what's next for Test IO. We prioritize features based on customer feedback from our 400k+ tester community.
+
+<Columns cols={3}>
+  <Card title="Q4 2024" icon="zap" horizontal>
+    Performance monitoring for live test sessions.
+  </Card>
+  <Card title="Q1 2025" icon="shield" horizontal>
+    Zero-trust security enhancements for enterprise teams.
+  </Card>
+  <Card title="Q2 2025" icon="trending-up" horizontal>
+    Full ML-driven test prioritization and automation.
+  </Card>
+</Columns>
+
+<Callout kind="info">
+  Provide feedback on these roadmap items via our [feedback portal](https://dashboard.example.com/feedback). Your input shapes our releases.
+</Callout>
+
+## How to Stay Updated
+
+Follow these steps to ensure you never miss a release.
+
+<Steps>
+  <Step title="Subscribe to Notifications" icon="bell">
+    Log in to your dashboard and navigate to Account Settings > Notifications. Enable email alerts for new versions.
+  </Step>
+  <Step title="Follow on GitHub" icon="github">
+    Visit our [GitHub repository](https://github.com/testio/platform) and watch for release events.
+  </Step>
+  <Step title="Check RSS Feed" icon="rss">
+    Add `https://docs.example.com/rss/changelog.xml` to your feed reader.
+  </Step>
+</Steps>
+
+<Tabs>
+  <Tab title="Webhook Setup" icon="webhook">
+    Configure webhooks to receive instant updates on new releases.
+
+    <ParamField header="TestIO-Signature" param-type="string" required="true">
+      HMAC SHA-256 signature for payload verification.
+    </ParamField>
+
+    ```javascript
+    // Example Node.js webhook handler
+    const crypto = require('crypto');
+
+    app.post('/webhook/changelog', (req, res) => {
+      const signature = req.headers['testio-signature'];
+      const payload = JSON.stringify(req.body);
+      const expectedSig = 'sha256=' + crypto.createHmac('sha256', 'YOUR_WEBHOOK_SECRET')
+        .update(payload)
+        .digest('hex');
+
+      if (crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSig))) {
+        console.log('New Test IO update:', req.body.version);
+        res.status(200).send('OK');
+      } else {
+        res.status(401).send('Invalid signature');
+      }
+    });
+    ```
+  </Tab>
+  <Tab title="API Polling" icon="api">
+    Query the versions endpoint periodically.
+
+    ```bash
+    curl -H "Authorization: Bearer YOUR_TOKEN" \
+         https://api.example.com/v1/versions?limit=5
+    ```
+  </Tab>
+</Tabs>
+
+<ExpandableGroup>
+  <Expandable title="Detailed Release Notes Archive" default-open="true">
+    Access full changelogs for older versions:
+
+    | Version | Date       | Key Changes                  |
+    |---------|------------|------------------------------|
+    | v2.0.0  | 2024-07-01 | Initial crowdtesting API    |
+    | v1.9.0  | 2024-06-15 | Mobile testing expansions    |
+  </Expandable>
+</ExpandableGroup>
